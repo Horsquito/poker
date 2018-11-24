@@ -1,14 +1,9 @@
 import itertools
 import collections
 
-suit = ['C', 'S', 'H', 'D']
-values = '14 13 12 11 10 9 8 7 6 5 4 3 2'
-card_value = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-card_suit = {'C': 'C', 'S': 'S', 'H': 'H', 'D': 'D'}
-symbols = '23456789TJQKA'
-black_suits = 'CS'
-red_suits = 'HD'
-
+SYMBOLS = '23456789TJQKA'
+BLACK_SUITS = 'CS'
+RED_SUITS = 'HD'
 
 
 
@@ -38,7 +33,7 @@ def hand_rank(hand):
 def card_ranks(hand):
     """Возвращает список рангов (его числовой эквивалент),
     отсортированный от большего к меньшему"""
-    ranks = [card_value.get(i[0]) for i in hand]
+    ranks = [SYMBOLS.index(i[0]) for i in hand]
     ranks.sort()
     ranks.reverse()
     return ranks
