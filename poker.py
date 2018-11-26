@@ -51,13 +51,10 @@ def flush(hand):
 def kind(n, ranks):
     """Возвращает первый ранг, который n раз встречается в данной руке.
     Возвращает None, если ничего не найдено"""
+    for i in ranks:
+        if ranks.count(i) == n:
+            return i
 
-    c = collections.Counter(ranks)
-    for k, v in c.items():
-        if v == n:
-            return k
-        else:
-            None
 
 
 
