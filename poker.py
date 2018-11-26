@@ -70,15 +70,12 @@ def straight(ranks):
 def two_pair(ranks):
     """Если есть две пары, то возврщает два соответствующих ранга,
     иначе возвращает None"""
-    c = collections.Counter(ranks)
-    a = []
-    for k, v in c.items():
-        if v == 2:
-            a.append(k)
-    if len(a) < 2:
-        return None
+    pair = kind(2, ranks)
+    low_pair = kind(2, list(reversed(ranks)))
+    if pair and low_pair != pair:
+        return pair, low_pair
     else:
-        return a[0], a[1]
+        return 
 
 
 
