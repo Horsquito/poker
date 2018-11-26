@@ -43,13 +43,7 @@ def card_ranks(hand):
 
 def flush(hand):
     """Возвращает True, если все карты одной масти"""
-    suit_check = dict(zip(suit, itertools.repeat(0, 4)))
-    for card in hand:
-        suit_check[card[-1]] += 1
-        if suit_check[card[-1]] == 5:
-            return card[-1]
-    return False
-
+    return len(set([suit for rank, suit in hand])) == 1
 
 
 
