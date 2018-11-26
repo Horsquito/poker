@@ -62,7 +62,8 @@ def kind(n, ranks):
 def straight(ranks):
     """Возвращает True, если отсортированные ранги формируют последовательность 5ти,
     где у 5ти карт ранги идут по порядку (стрит)"""
-    return set(map(lambda a,b: a-b, ranks, ranks[1:])) == {1}
+    b = set(range(max(ranks), min(ranks) - 1, -1))
+    return len(b) == 5 and max(b) - min(b) == 4
 
 
 
