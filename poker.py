@@ -1,14 +1,9 @@
 import itertools
 import collections
 
-suit = ['C', 'S', 'H', 'D']
-values = '14 13 12 11 10 9 8 7 6 5 4 3 2'
-card_value = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
-card_suit = {'C': 'C', 'S': 'S', 'H': 'H', 'D': 'D'}
-symbols = '23456789TJQKA'
-black_suits = 'CS'
-red_suits = 'HD'
-
+SYMBOLS = '23456789TJQKA'
+BLACK_SUITS = 'CS'
+RED_SUITS = 'HD'
 
 
 
@@ -38,7 +33,7 @@ def hand_rank(hand):
 def card_ranks(hand):
     """Возвращает список рангов (его числовой эквивалент),
     отсортированный от большего к меньшему"""
-    ranks = [card_value.get(i[0]) for i in hand]
+    ranks = [SYMBOLS.index(i[0]) for i in hand]
     ranks.sort()
     ranks.reverse()
     return ranks
@@ -48,13 +43,7 @@ def card_ranks(hand):
 
 def flush(hand):
     """Возвращает True, если все карты одной масти"""
-    suit_check = dict(zip(suit, itertools.repeat(0, 4)))
-    for card in hand:
-        suit_check[card[-1]] += 1
-        if suit_check[card[-1]] == 5:
-            return card[-1]
-    return False
-
+    return len(set([suit for rank, suit in hand])) == 1
 
 
 
@@ -62,13 +51,10 @@ def flush(hand):
 def kind(n, ranks):
     """Возвращает первый ранг, который n раз встречается в данной руке.
     Возвращает None, если ничего не найдено"""
+    for rank in ranks:
+        if ranks.count(rank) == n:
+            return rank
 
-    c = collections.Counter(ranks)
-    for k, v in c.items():
-        if v == n:
-            return k
-        else:
-            None
 
 
 
@@ -76,22 +62,20 @@ def kind(n, ranks):
 def straight(ranks):
     """Возвращает True, если отсортированные ранги формируют последовательность 5ти,
     где у 5ти карт ранги идут по порядку (стрит)"""
-    return set(map(lambda a,b: a-b, ranks, ranks[1:])) == {1}
+    sequence_of_cards = set(range(max(ranks), min(ranks) - 1, -1))
+    return len(sequence_of_cards) == 5 and max(sequence_of_cards) - min(sequence_of_cards) == 4
 
 
 
 def two_pair(ranks):
     """Если есть две пары, то возврщает два соответствующих ранга,
     иначе возвращает None"""
-    c = collections.Counter(ranks)
-    a = []
-    for k, v in c.items():
-        if v == 2:
-            a.append(k)
-    if len(a) < 2:
-        return None
+    pair = kind(2, ranks)
+    low_pair = kind(2, list(reversed(ranks)))
+    if pair and low_pair != pair:
+        return pair, low_pair
     else:
-        return a[0], a[1]
+        return
 
 
 
@@ -109,8 +93,8 @@ def variants(hand):
             yield [card]
         else:
             color = card[1]
-            suits = black_suits if color == 'B' else red_suits
-            yield set(r + s for r in symbols for s in suits) - set(hand)
+            suits = BLACK_SUITS if color == 'B' else RED_SUITS
+            yield set(r + s for r in SYMBOLS for s in suits) - set(hand)
 
 
 def best_wild_hand(hand):
