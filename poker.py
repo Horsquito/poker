@@ -51,9 +51,9 @@ def flush(hand):
 def kind(n, ranks):
     """Возвращает первый ранг, который n раз встречается в данной руке.
     Возвращает None, если ничего не найдено"""
-    for i in ranks:
-        if ranks.count(i) == n:
-            return i
+    for rank in ranks:
+        if ranks.count(rank) == n:
+            return rank
 
 
 
@@ -62,8 +62,8 @@ def kind(n, ranks):
 def straight(ranks):
     """Возвращает True, если отсортированные ранги формируют последовательность 5ти,
     где у 5ти карт ранги идут по порядку (стрит)"""
-    b = set(range(max(ranks), min(ranks) - 1, -1))
-    return len(b) == 5 and max(b) - min(b) == 4
+    sequence_of_cards = set(range(max(ranks), min(ranks) - 1, -1))
+    return len(sequence_of_cards) == 5 and max(sequence_of_cards) - min(sequence_of_cards) == 4
 
 
 
@@ -75,7 +75,7 @@ def two_pair(ranks):
     if pair and low_pair != pair:
         return pair, low_pair
     else:
-        return 
+        return
 
 
 
