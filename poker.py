@@ -93,8 +93,8 @@ def variants(hand):
             yield [card]
         else:
             color = card[1]
-            suits = black_suits if color == 'B' else red_suits
-            yield set(r + s for r in symbols for s in suits) - set(hand)
+            suits = BLACK_SUITS if color == 'B' else RED_SUITS
+            yield set(r + s for r in SYMBOLS for s in suits) - set(hand)
 
 
 def best_wild_hand(hand):
